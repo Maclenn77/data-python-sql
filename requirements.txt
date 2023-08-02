@@ -1,0 +1,4 @@
+# PostgreSQL
+psycopg2==2.9.6
+# Dot env
+python-dotenv==1.0.0
