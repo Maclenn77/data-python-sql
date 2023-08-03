@@ -1,5 +1,6 @@
 import sys
 import os
+import csv
 required_paths = ['lib/data', 'lib/db', 'lib/adapter']
 for path in required_paths:
     sys.path.append(path)
@@ -56,5 +57,26 @@ db_admin.create_table(table_name, columns)
 # Load data
 db_admin.load_data(table_name, columns, loader.prepared_values)
 
+# Get Data
+data = db_admin.get_data(table_name)
+
+# Close the connection
 db_admin.close()
+
+# Create a CSV report
+if not os.path.exists("report"):
+    os.makedirs("report")
+    print("Directory report created")
+
+# Create a CSV file
+with open("report/video_clips.csv", "w") as f:
+    writer = csv.writer(f)
+    # CSV header
+    writer.writerow(["clip_name", "clip_file_extension", "clip_duration", "clip_location", "insert_timestamp"])
+
+    # Write data to CSV file
+    for row in data:
+        writer.writerow(row)
+
+print("Report generated successfully")
 
