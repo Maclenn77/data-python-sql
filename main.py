@@ -3,7 +3,9 @@ import os
 required_paths = ['lib/data', 'lib/db', 'lib/adapter']
 for path in required_paths:
     sys.path.append(path)
-from admin import DBAdmin
+from admin import DBAdmin  # noqa: E402
+from extractor import DataExtractor  # noqa: E402
+from transformer import DataTransformer  # noqa: E402
 
 # Create dir video_clips if doesn't exist
 if not os.path.exists("video_clips"):
@@ -15,6 +17,13 @@ if not os.listdir("video_clips"):
     print("Please add video clips to video_clips directory and run again")
     sys.exit()
 
+# Extract data from video clips
+data_extractor = DataExtractor("video_clips")
+data_extractor.extract()
+
+# Transform data
+transformer = DataTransformer(data_extractor)
+transformer.transform()
     
 # Create an instance of DBAdmin
 db_admin = DBAdmin()
@@ -30,7 +39,9 @@ if not db_admin.adapter.is_connected():
 columns = [["clip_name", "VARCHAR(255)"],
            ["clip_file_extension", "VARCHAR(4)"],
            ["clip_duration", "INTERVAL"],
-           ["clip_location", "VARCHAR(255)"]]
+           ["clip_location", "VARCHAR(255)"],
+           ["insert_timestamp", "TIMESTAMP"]
+           ]
 
 # Create a table video_data if not exists
 db_admin.create_table("video_data", columns)

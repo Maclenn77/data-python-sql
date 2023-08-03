@@ -5,7 +5,7 @@ from datetime import timedelta
 class DataTransformer:
     def __init__(self, data):
         if isinstance(data, DataExtractor) is False:
-            raise TypeError("DataTransformer class only accepts an instance of DataExtractor class")
+            raise TypeError("DataTransformer class only accepts an instance of DataExtractor class")  # noqa: E501
         
         self.data = data # An instance of data extractor
 

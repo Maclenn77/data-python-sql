@@ -20,7 +20,13 @@ class DBAdmin:
 
 
     def insert(self, table_name, columns, values):
-        raise NotImplementedError
+        columns = [column[0] for column in columns]
+        sql_columns = "(" + ", ".join(columns) + ")"
+        query = "INSERT INTO " + table_name + sql_columns + " " + values
+        print(query)
+        self.adapter.cursor.execute(query)
+        self.adapter.conn.commit()
+        
     
     def close(self):
         self.adapter.close_cursor()
