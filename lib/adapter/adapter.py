@@ -18,6 +18,8 @@ class Adapter:
     def connect(self):
         try:
           self.conn = psycopg2.connect(**self.config)
+          if self.is_connected():
+              print("Connected to database")
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
         
@@ -27,10 +29,10 @@ class Adapter:
         self.conn = None
     
     def is_connected(self):
-        return self.conn != None
+        return self.conn is not None
     
-    def cursor(self):
-        if self.conn == None:
+    def open_cursor(self):
+        if self.conn is None:
             self.conn = self.connect()
 
         self.cursor = self.conn.cursor()
@@ -38,6 +40,3 @@ class Adapter:
     def close_cursor(self):
         self.cursor.close()
         self.cursor = None
-    
-    def commit(self):
-        self.conn.commit()

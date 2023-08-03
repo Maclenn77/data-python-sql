@@ -1,8 +1,9 @@
 import sys
 import os
-sys.path.append('lib/db')   # Add db_admin to path
-sys.path.append('lib/adapter')   # Add adapter to path
-from admin import Admin
+required_paths = ['lib/data', 'lib/db', 'lib/adapter']
+for path in required_paths:
+    sys.path.append(path)
+from admin import DBAdmin
 
 # Create dir video_clips if doesn't exist
 if not os.path.exists("video_clips"):
@@ -13,19 +14,24 @@ if not os.path.exists("video_clips"):
 if not os.listdir("video_clips"):
     print("Please add video clips to video_clips directory and run again")
     sys.exit()
+
     
-# Create an instance of Admin
-db_admin = Admin()
+# Create an instance of DBAdmin
+db_admin = DBAdmin()
 
 # Connect to the database
-db_admin.connect()
+db_admin.adapter.connect()
+
+if not db_admin.adapter.is_connected():
+    print("Database connection failed")
+    sys.exit()
 
 # Create a list of columns
 columns = [["clip_name", "VARCHAR(255)"],
-           ["clip_file_extension", "VARCHAR(3)"],
+           ["clip_file_extension", "VARCHAR(4)"],
            ["clip_duration", "INTERVAL"],
            ["clip_location", "VARCHAR(255)"]]
 
-# Create a table video_data
+# Create a table video_data if not exists
 db_admin.create_table("video_data", columns)
 

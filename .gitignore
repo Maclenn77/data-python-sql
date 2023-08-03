@@ -3,3 +3,5 @@ __pycache__
 db/__pycache__
 adapter/__pycache__
 video_clips
+.DS_Store
+tester.py
