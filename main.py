@@ -41,8 +41,10 @@ db_admin.adapter.connect()
 if not db_admin.adapter.is_connected():
     print("Database connection failed")
     sys.exit()
+
 # Table name
 table_name = "video_data"
+
 # Create a list of columns
 columns = [["clip_name", "VARCHAR(255)"],
            ["clip_file_extension", "VARCHAR(4)"],
@@ -54,14 +56,16 @@ columns = [["clip_name", "VARCHAR(255)"],
 # Create a table video_data if not exists
 db_admin.create_table(table_name, columns)
 
-# Load data
+# Load video_data to SQL Table
 db_admin.load_data(table_name, columns, loader.prepared_values)
+print("Data loaded successfully")
 
-# Get Data
+# Get saved data
 data = db_admin.get_data(table_name)
 
 # Close the connection
 db_admin.close()
+print("Database connection closed")
 
 # Create a CSV report
 if not os.path.exists("report"):
@@ -79,4 +83,4 @@ with open("report/video_clips.csv", "w") as f:
         writer.writerow(row)
 
 print("Report generated successfully")
-
+print("Please check report/video_clips.csv file")

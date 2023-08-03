@@ -14,7 +14,7 @@ class DataTransformer:
         for i in range(self.data.data_size):
             # Convert duration to time delta seconds and microseconds
             time = str(timedelta(seconds=self.data.video_clips_duration[i]))
-            path = self.data.location + self.data.video_clips_files[i]
+            path = self.data.location + '/' + self.data.video_clips_files[i]
 
             # Create a tuple of data
             data = (self.data.video_clips_name[i],
