@@ -76,7 +76,7 @@ if not os.path.exists("report"):
 with open("report/video_clips.csv", "w") as f:
     writer = csv.writer(f)
     # CSV header
-    writer.writerow(["clip_name", "clip_file_extension", "clip_duration", "clip_location", "insert_timestamp"])
+    writer.writerow(["clip_name", "clip_file_extension", "clip_duration", "clip_location", "insert_timestamp"])  # noqa: E501
 
     # Write data to CSV file
     for row in data:
