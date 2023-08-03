@@ -1,11 +1,13 @@
 import sys
-sys.path.append('../lib/adapter')   # Add adapter to path
 from adapter import Adapter
 
 class Admin:
     def __init__(self):
         self.adapter = Adapter()
         self.adapter.connect()
+        if not self.adapter.is_connected():
+            print("Database connection failed")
+            sys.exit()
         self.adapter.cursor()
     
     def create_table(self, table_name, columns):

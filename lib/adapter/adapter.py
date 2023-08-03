@@ -17,7 +17,7 @@ class Adapter:
 
     def connect(self):
         try:
-          self.conn = psycopg2.connect(self.config)
+          self.conn = psycopg2.connect(**self.config)
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
         
@@ -31,7 +31,8 @@ class Adapter:
     
     def cursor(self):
         if self.conn == None:
-            self.connect()
+            self.conn = self.connect()
+
         self.cursor = self.conn.cursor()
 
     def close_cursor(self):
